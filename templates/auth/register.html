@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="panel">
+            <h4 class="page-title">Create a trekker account</h4>
+            <p class="page-note">You can book treks as soon as you register.</p>
+
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Full name</label>
+                    <input type="text" name="full_name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Phone</label>
+                    <input type="text" name="phone" class="form-control">
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-trail w-100">Register</button>
+            </form>
+
+            <p class="small text-muted mt-3 mb-0">
+                Already registered? <a href="{{ url_for('auth.login') }}">Log in</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

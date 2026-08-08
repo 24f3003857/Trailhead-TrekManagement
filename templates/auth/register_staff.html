@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Guide application{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="panel">
+            <h4 class="page-title">Apply as a trek guide</h4>
+            <p class="page-note">An admin reviews every application. You can log in once it is approved.</p>
+
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Full name</label>
+                        <input type="text" name="full_name" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text" name="phone" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Years of experience</label>
+                        <input type="number" name="experience_years" class="form-control" min="0" value="0">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Specialisation</label>
+                        <input type="text" name="specialisation" class="form-control" placeholder="High altitude, forest...">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Base region</label>
+                        <input type="text" name="base_region" class="form-control">
+                    </div>
+                    <div class="col-12 mb-4">
+                        <label class="form-label">About you</label>
+                        <textarea name="bio" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-trail w-100">Submit application</button>
+            </form>
+
+            <p class="small text-muted mt-3 mb-0">
+                Booking treks instead? <a href="{{ url_for('auth.register') }}">Register as a trekker</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
