@@ -10,8 +10,8 @@ from werkzeug.security import generate_password_hash
 from models import db, User, ROLE_ADMIN, STATUS_ACTIVE
 
 ADMIN_NAME = 'Site Administrator'
-ADMIN_EMAIL = 'admin@summittrails.com'
-ADMIN_PASSWORD = 'Admin@123'
+ADMIN_EMAIL = 'admin@gmail.com'
+ADMIN_PASSWORD = 'Admin@000'
 
 
 def setup_database():
