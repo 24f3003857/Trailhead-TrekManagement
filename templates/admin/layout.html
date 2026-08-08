@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 class="page-title">Admin console</h3>
+<p class="page-note">Treks, guides, trekkers and the full booking register.</p>
+
+<nav class="dash-nav">
+    <a href="{{ url_for('admin.dashboard') }}" class="{{ 'active' if active_page == 'dashboard' }}">Overview</a>
+    <a href="{{ url_for('admin.treks') }}" class="{{ 'active' if active_page == 'treks' }}">Treks</a>
+    <a href="{{ url_for('admin.staff') }}" class="{{ 'active' if active_page == 'staff' }}">Guides</a>
+    <a href="{{ url_for('admin.trekkers') }}" class="{{ 'active' if active_page == 'trekkers' }}">Trekkers</a>
+    <a href="{{ url_for('admin.bookings') }}" class="{{ 'active' if active_page == 'bookings' }}">Bookings</a>
+    <a href="{{ url_for('admin.search') }}" class="{{ 'active' if active_page == 'search' }}">Search</a>
+</nav>
+
+{% block admin_content %}{% endblock %}
+{% endblock %}

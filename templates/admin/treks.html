@@ -1,0 +1,56 @@
+{% extends "admin/layout.html" %}
+{% from "macros.html" import trek_pill %}
+
+{% block title %}Treks{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <form method="GET" class="d-flex gap-2">
+        <input type="text" name="q" class="form-control" placeholder="Trek name or ID" value="{{ term }}">
+        <button class="btn btn-trail-outline">Search</button>
+    </form>
+    <a href="{{ url_for('admin.new_trek') }}" class="btn btn-trail">Add trek</a>
+</div>
+
+<table class="table table-trail">
+    <thead>
+        <tr>
+            <th>#</th><th>Trek</th><th>Region</th><th>Difficulty</th><th>Dates</th>
+            <th>Seats</th><th>Status</th><th>Guide</th><th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for trek in treks %}
+        <tr>
+            <td>{{ trek.id }}</td>
+            <td>{{ trek.title }}</td>
+            <td>{{ trek.region }}</td>
+            <td>{{ trek.difficulty }}</td>
+            <td class="small">{{ trek.start_date.strftime('%d %b %Y') }}<br>{{ trek.duration_days }} days</td>
+            <td>{{ trek.available_slots }}/{{ trek.total_slots }}</td>
+            <td>{{ trek_pill(trek.status) }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('admin.assign_guide', trek_id=trek.id) }}" class="d-flex gap-1">
+                    <select name="guide_id" class="form-select form-select-sm">
+                        <option value="">Unassigned</option>
+                        {% for guide in guides %}
+                        <option value="{{ guide.id }}" {{ 'selected' if trek.guide_id == guide.id }}>{{ guide.full_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button class="btn btn-sm btn-trail-outline">Set</button>
+                </form>
+            </td>
+            <td class="text-nowrap">
+                <a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}" class="btn btn-sm btn-trail-outline">Edit</a>
+                <form method="POST" action="{{ url_for('admin.delete_trek', trek_id=trek.id) }}" class="d-inline">
+                    <button class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Delete this trek and all its bookings?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="9" class="text-center text-muted">No treks found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

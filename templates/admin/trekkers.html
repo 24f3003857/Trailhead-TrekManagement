@@ -1,0 +1,41 @@
+{% extends "admin/layout.html" %}
+{% from "macros.html" import account_pill %}
+
+{% block title %}Trekkers{% endblock %}
+
+{% block admin_content %}
+<form method="GET" class="d-flex gap-2 mb-4" style="max-width: 420px;">
+    <input type="text" name="q" class="form-control" placeholder="Trekker name or ID" value="{{ term }}">
+    <button class="btn btn-trail-outline">Search</button>
+</form>
+
+<table class="table table-trail">
+    <thead>
+        <tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Joined</th><th>Bookings</th><th>Status</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for trekker in trekkers %}
+        <tr>
+            <td>{{ trekker.id }}</td>
+            <td>{{ trekker.full_name }}</td>
+            <td>{{ trekker.email }}</td>
+            <td>{{ trekker.phone or '-' }}</td>
+            <td>{{ trekker.joined_on.strftime('%d %b %Y') }}</td>
+            <td>{{ trekker.bookings|length }}</td>
+            <td>{{ account_pill(trekker.account_status) }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('admin.toggle_trekker', user_id=trekker.id) }}">
+                    {% if trekker.account_status == 'blacklisted' %}
+                    <button class="btn btn-sm btn-trail">Reactivate</button>
+                    {% else %}
+                    <button class="btn btn-sm btn-trail-outline">Blacklist</button>
+                    {% endif %}
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="text-center text-muted">No trekkers found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

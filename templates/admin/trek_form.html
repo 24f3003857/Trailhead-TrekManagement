@@ -1,0 +1,77 @@
+{% extends "admin/layout.html" %}
+
+{% block title %}{{ 'Edit trek' if trek else 'New trek' }}{% endblock %}
+
+{% block admin_content %}
+<div class="row justify-content-center">
+    <div class="col-md-9">
+        <div class="panel">
+            <h5 class="mb-4">{{ 'Edit trek' if trek else 'Add a new trek' }}</h5>
+
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Trek name</label>
+                        <input type="text" name="title" class="form-control" value="{{ trek.title if trek }}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Region</label>
+                        <input type="text" name="region" class="form-control" value="{{ trek.region if trek }}" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Difficulty</label>
+                        <select name="difficulty" class="form-select" required>
+                            {% for level in difficulties %}
+                            <option value="{{ level }}" {{ 'selected' if trek and trek.difficulty == level }}>{{ level }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Start date</label>
+                        <input type="date" name="start_date" class="form-control"
+                               value="{{ trek.start_date.isoformat() if trek }}" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">End date</label>
+                        <input type="date" name="end_date" class="form-control"
+                               value="{{ trek.end_date.isoformat() if trek }}" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Total slots</label>
+                        <input type="number" name="total_slots" class="form-control" min="1"
+                               value="{{ trek.total_slots if trek else 10 }}" required>
+                    </div>
+
+                    {% if trek %}
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Status</label>
+                        <select name="status" class="form-select">
+                            {% for state in statuses %}
+                            <option value="{{ state }}" {{ 'selected' if trek.status == state }}>{{ state }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endif %}
+
+                    <div class="col-md-{{ '4' if trek else '8' }} mb-3">
+                        <label class="form-label">Photo URL</label>
+                        <input type="text" name="photo_url" class="form-control" value="{{ trek.photo_url if trek }}">
+                    </div>
+                    <div class="col-12 mb-4">
+                        <label class="form-label">Summary</label>
+                        <textarea name="summary" class="form-control" rows="3">{{ trek.summary if trek }}</textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-trail">{{ 'Save changes' if trek else 'Create trek' }}</button>
+                <a href="{{ url_for('admin.treks') }}" class="btn btn-trail-outline">Cancel</a>
+            </form>
+
+            {% if not trek %}
+            <p class="small text-muted mt-3 mb-0">New treks start as <strong>Pending</strong>.
+                Assign a guide on the trek list to move them to <strong>Approved</strong>.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

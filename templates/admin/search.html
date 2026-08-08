@@ -1,0 +1,70 @@
+{% extends "admin/layout.html" %}
+{% from "macros.html" import trek_pill, account_pill %}
+
+{% block title %}Search{% endblock %}
+
+{% block admin_content %}
+<form method="GET" class="d-flex gap-2 mb-4" style="max-width: 520px;">
+    <input type="text" name="q" class="form-control" placeholder="Search treks, guides or trekkers by name or ID" value="{{ term }}">
+    <button class="btn btn-trail">Search</button>
+</form>
+
+{% if not term %}
+<div class="panel text-muted">Type a name or an ID to search across the whole system.</div>
+{% else %}
+
+<h5 class="mb-3">Treks ({{ treks|length }})</h5>
+<table class="table table-trail mb-5">
+    <thead><tr><th>#</th><th>Trek</th><th>Region</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+        {% for trek in treks %}
+        <tr>
+            <td>{{ trek.id }}</td>
+            <td>{{ trek.title }}</td>
+            <td>{{ trek.region }}</td>
+            <td>{{ trek_pill(trek.status) }}</td>
+            <td><a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}" class="btn btn-sm btn-trail-outline">Open</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted">No matching treks.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h5 class="mb-3">Guides ({{ staff|length }})</h5>
+<table class="table table-trail mb-5">
+    <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Treks led</th><th>Status</th></tr></thead>
+    <tbody>
+        {% for guide in staff %}
+        <tr>
+            <td>{{ guide.id }}</td>
+            <td>{{ guide.full_name }}</td>
+            <td>{{ guide.email }}</td>
+            <td>{{ guide.led_treks|length }}</td>
+            <td>{{ account_pill(guide.account_status) }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted">No matching guides.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h5 class="mb-3">Trekkers ({{ trekkers|length }})</h5>
+<table class="table table-trail">
+    <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Bookings</th><th>Status</th></tr></thead>
+    <tbody>
+        {% for trekker in trekkers %}
+        <tr>
+            <td>{{ trekker.id }}</td>
+            <td>{{ trekker.full_name }}</td>
+            <td>{{ trekker.email }}</td>
+            <td>{{ trekker.bookings|length }}</td>
+            <td>{{ account_pill(trekker.account_status) }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted">No matching trekkers.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

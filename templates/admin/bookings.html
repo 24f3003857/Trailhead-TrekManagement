@@ -1,0 +1,44 @@
+{% extends "admin/layout.html" %}
+{% from "macros.html" import booking_pill, payment_pill, trek_pill %}
+
+{% block title %}Booking register{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h5 class="mb-0">Every booking &amp; trekking record</h5>
+    <form method="GET" class="d-flex gap-2">
+        <select name="status" class="form-select">
+            <option value="">All statuses</option>
+            {% for state in ['Booked', 'Completed', 'Cancelled'] %}
+            <option value="{{ state }}" {{ 'selected' if status == state }}>{{ state }}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-trail-outline">Filter</button>
+    </form>
+</div>
+
+<table class="table table-trail">
+    <thead>
+        <tr>
+            <th>#</th><th>Trekker</th><th>Trek</th><th>Guide</th><th>Booked on</th>
+            <th>Trek status</th><th>Booking</th><th>Payment</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.id }}</td>
+            <td>{{ booking.trekker.full_name }}</td>
+            <td>{{ booking.trek.title }}</td>
+            <td>{{ booking.trek.guide.full_name if booking.trek.guide else 'Unassigned' }}</td>
+            <td>{{ booking.booked_on.strftime('%d %b %Y') }}</td>
+            <td>{{ trek_pill(booking.trek.status) }}</td>
+            <td>{{ booking_pill(booking.status) }}</td>
+            <td>{{ payment_pill(booking.payment_status) }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="text-center text-muted">No booking records.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

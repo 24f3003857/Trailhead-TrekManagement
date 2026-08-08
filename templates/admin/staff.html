@@ -1,0 +1,123 @@
+{% extends "admin/layout.html" %}
+{% from "macros.html" import account_pill %}
+
+{% block title %}Guides{% endblock %}
+
+{% block admin_content %}
+<form method="GET" class="d-flex gap-2 mb-4" style="max-width: 420px;">
+    <input type="text" name="q" class="form-control" placeholder="Guide name or ID" value="{{ term }}">
+    <button class="btn btn-trail-outline">Search</button>
+</form>
+
+<div class="panel mb-4">
+    <h6 class="mb-3">Add a guide directly</h6>
+    <form method="POST" action="{{ url_for('admin.add_staff') }}" class="row g-2">
+        <div class="col-md-3">
+            <input type="text" name="full_name" class="form-control" placeholder="Full name" required>
+        </div>
+        <div class="col-md-3">
+            <input type="email" name="email" class="form-control" placeholder="Email" required>
+        </div>
+        <div class="col-md-2">
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+        </div>
+        <div class="col-md-2">
+            <input type="text" name="phone" class="form-control" placeholder="Phone">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-trail w-100">Add</button>
+        </div>
+        <div class="col-md-3">
+            <input type="number" name="experience_years" class="form-control" placeholder="Years" min="0">
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="specialisation" class="form-control" placeholder="Specialisation">
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="base_region" class="form-control" placeholder="Base region">
+        </div>
+    </form>
+    <p class="small text-muted mt-2 mb-0">Guides added here are active immediately - no approval step.</p>
+</div>
+
+<h5 class="mb-3">Awaiting approval ({{ pending|length }})</h5>
+<table class="table table-trail mb-5">
+    <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Experience</th><th>Specialisation</th><th></th></tr></thead>
+    <tbody>
+        {% for guide in pending %}
+        <tr>
+            <td>{{ guide.id }}</td>
+            <td>{{ guide.full_name }}</td>
+            <td>{{ guide.email }}</td>
+            <td>{{ guide.staff_profile.experience_years if guide.staff_profile else 0 }} yrs</td>
+            <td>{{ guide.staff_profile.specialisation if guide.staff_profile else '-' }}</td>
+            <td class="text-nowrap">
+                <form method="POST" action="{{ url_for('admin.approve_staff', staff_id=guide.id) }}" class="d-inline">
+                    <button class="btn btn-sm btn-trail">Approve</button>
+                </form>
+                <form method="POST" action="{{ url_for('admin.remove_staff', staff_id=guide.id) }}" class="d-inline">
+                    <button class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Reject and delete this application?')">Reject</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-center text-muted">No pending applications.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h5 class="mb-3">Active guides ({{ active|length }})</h5>
+<table class="table table-trail mb-5">
+    <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Treks led</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+        {% for guide in active %}
+        <tr>
+            <td>{{ guide.id }}</td>
+            <td>{{ guide.full_name }}</td>
+            <td>{{ guide.email }}</td>
+            <td>{{ guide.phone or '-' }}</td>
+            <td>{{ guide.led_treks|length }}</td>
+            <td>{{ account_pill(guide.account_status) }}</td>
+            <td class="text-nowrap">
+                <form method="POST" action="{{ url_for('admin.block_staff', staff_id=guide.id) }}" class="d-inline">
+                    <button class="btn btn-sm btn-trail-outline">Blacklist</button>
+                </form>
+                <form method="POST" action="{{ url_for('admin.remove_staff', staff_id=guide.id) }}" class="d-inline">
+                    <button class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Remove this guide? Their treks become unassigned.')">Remove</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-center text-muted">No active guides.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h5 class="mb-3">Blacklisted ({{ blocked|length }})</h5>
+<table class="table table-trail">
+    <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+        {% for guide in blocked %}
+        <tr>
+            <td>{{ guide.id }}</td>
+            <td>{{ guide.full_name }}</td>
+            <td>{{ guide.email }}</td>
+            <td>{{ account_pill(guide.account_status) }}</td>
+            <td class="text-nowrap">
+                <form method="POST" action="{{ url_for('admin.approve_staff', staff_id=guide.id) }}" class="d-inline">
+                    <button class="btn btn-sm btn-trail">Reinstate</button>
+                </form>
+                <form method="POST" action="{{ url_for('admin.remove_staff', staff_id=guide.id) }}" class="d-inline">
+                    <button class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Remove this guide permanently?')">Remove</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted">Nobody is blacklisted.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
