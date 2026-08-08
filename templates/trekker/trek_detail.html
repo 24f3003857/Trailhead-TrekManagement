@@ -1,0 +1,48 @@
+{% extends "trekker/layout.html" %}
+{% from "macros.html" import trek_pill, trek_photo %}
+
+{% block title %}{{ trek.title }}{% endblock %}
+
+{% block trekker_content %}
+<div class="row g-4">
+    <div class="col-md-7">
+        <div class="trek-card">
+            <img src="{{ trek_photo(trek) }}" alt="{{ trek.title }}">
+            <div class="trek-body">
+                <h5 class="mb-1">{{ trek.title }} {{ trek_pill(trek.status) }}</h5>
+                <p class="text-muted mb-3">{{ trek.region }} &middot; {{ trek.difficulty }}</p>
+                <p class="mb-0">{{ trek.summary or 'No description has been added for this trek yet.' }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="panel mb-4">
+            <h6 class="mb-3">At a glance</h6>
+            <p class="mb-2"><strong>Dates:</strong> {{ trek.start_date.strftime('%d %b %Y') }}
+                to {{ trek.end_date.strftime('%d %b %Y') }}</p>
+            <p class="mb-2"><strong>Duration:</strong> {{ trek.duration_days }} days</p>
+            <p class="mb-2"><strong>Seats left:</strong> {{ trek.available_slots }} of {{ trek.total_slots }}</p>
+            <p class="mb-0"><strong>Guide:</strong> {{ trek.guide.full_name if trek.guide else 'To be assigned' }}</p>
+        </div>
+
+        <div class="panel">
+            {% if existing %}
+            <p class="mb-3">You booked this trek on {{ existing.booked_on.strftime('%d %b %Y') }}.</p>
+            <a href="{{ url_for('trekker.bookings') }}" class="btn btn-trail-outline w-100">See my bookings</a>
+            {% elif trek.status != 'Open' %}
+            <p class="mb-3 text-muted">Bookings are not open for this trek yet.</p>
+            <button class="btn btn-secondary w-100" disabled>Not open</button>
+            {% elif trek.available_slots <= 0 %}
+            <p class="mb-3 text-muted">Every seat on this trek is taken.</p>
+            <button class="btn btn-secondary w-100" disabled>Fully booked</button>
+            {% else %}
+            <p class="mb-3">{{ trek.available_slots }} seat(s) still available.</p>
+            <form method="POST" action="{{ url_for('trekker.book_trek', trek_id=trek.id) }}">
+                <button class="btn btn-trail w-100">Book this trek</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

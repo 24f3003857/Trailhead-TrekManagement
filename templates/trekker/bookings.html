@@ -1,0 +1,39 @@
+{% extends "trekker/layout.html" %}
+{% from "macros.html" import trek_pill, booking_pill, payment_pill %}
+
+{% block title %}My bookings{% endblock %}
+
+{% block trekker_content %}
+<h5 class="mb-3">Active bookings ({{ bookings|length }})</h5>
+
+<table class="table table-trail">
+    <thead>
+        <tr><th>#</th><th>Trek</th><th>Region</th><th>Dates</th><th>Guide</th>
+            <th>Trek status</th><th>Booking</th><th>Payment</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.id }}</td>
+            <td><a href="{{ url_for('trekker.trek_detail', trek_id=booking.trek.id) }}">{{ booking.trek.title }}</a></td>
+            <td>{{ booking.trek.region }}</td>
+            <td class="small">{{ booking.trek.start_date.strftime('%d %b') }} &ndash;
+                {{ booking.trek.end_date.strftime('%d %b %Y') }}</td>
+            <td>{{ booking.trek.guide.full_name if booking.trek.guide else 'To be assigned' }}</td>
+            <td>{{ trek_pill(booking.trek.status) }}</td>
+            <td>{{ booking_pill(booking.status) }}</td>
+            <td>{{ payment_pill(booking.payment_status) }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('trekker.cancel_booking', booking_id=booking.id) }}">
+                    <button class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Cancel this booking?')">Cancel</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="9" class="text-center text-muted">
+            No active bookings - <a href="{{ url_for('trekker.treks') }}">browse open treks</a>.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

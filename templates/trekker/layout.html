@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 class="page-title">My trails</h3>
+<p class="page-note">Find a trek, hold a seat, and keep your walking record.</p>
+
+<nav class="dash-nav">
+    <a href="{{ url_for('trekker.dashboard') }}" class="{{ 'active' if active_page == 'dashboard' }}">Overview</a>
+    <a href="{{ url_for('trekker.treks') }}" class="{{ 'active' if active_page == 'treks' }}">Browse treks</a>
+    <a href="{{ url_for('trekker.bookings') }}" class="{{ 'active' if active_page == 'bookings' }}">My bookings</a>
+    <a href="{{ url_for('trekker.history') }}" class="{{ 'active' if active_page == 'history' }}">History</a>
+    <a href="{{ url_for('trekker.profile') }}" class="{{ 'active' if active_page == 'profile' }}">Profile</a>
+</nav>
+
+{% block trekker_content %}{% endblock %}
+{% endblock %}

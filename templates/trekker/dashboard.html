@@ -1,0 +1,58 @@
+{% extends "trekker/layout.html" %}
+{% from "macros.html" import booking_pill, trek_pill %}
+
+{% block title %}My overview{% endblock %}
+
+{% block trekker_content %}
+<div class="row g-3 mb-4">
+    <div class="col-md-3 col-6">
+        <div class="stat">
+            <div class="stat-value">{{ counts.active }}</div>
+            <div class="stat-label">Active bookings</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat">
+            <div class="stat-value">{{ counts.completed }}</div>
+            <div class="stat-label">Treks completed</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat">
+            <div class="stat-value">{{ counts.cancelled }}</div>
+            <div class="stat-label">Cancelled</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat">
+            <div class="stat-value">{{ counts.open_treks }}</div>
+            <div class="stat-label">Treks open now</div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">Recent activity</h5>
+    <a href="{{ url_for('trekker.treks') }}" class="btn btn-trail btn-sm">Browse treks</a>
+</div>
+
+<table class="table table-trail">
+    <thead>
+        <tr><th>Trek</th><th>Starts</th><th>Booked on</th><th>Trek status</th><th>My booking</th></tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td><a href="{{ url_for('trekker.trek_detail', trek_id=booking.trek.id) }}">{{ booking.trek.title }}</a></td>
+            <td>{{ booking.trek.start_date.strftime('%d %b %Y') }}</td>
+            <td>{{ booking.booked_on.strftime('%d %b %Y') }}</td>
+            <td>{{ trek_pill(booking.trek.status) }}</td>
+            <td>{{ booking_pill(booking.status) }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted">
+            Nothing booked yet - <a href="{{ url_for('trekker.treks') }}">find a trek</a>.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
