@@ -36,7 +36,7 @@ def dashboard():
 @login_required
 @role_required('trekker')
 def treks():
-    """Only treks that are open, or approved and about to open, are listed."""
+    # Browse treks
     query = Trek.query.filter(Trek.status.in_(['Open', 'Approved']))
 
     term = request.args.get('q', '').strip()
@@ -125,7 +125,7 @@ def cancel_booking(booking_id):
 @login_required
 @role_required('trekker')
 def history():
-    """Every past record of this trekker - completed and cancelled alike."""
+    # Past records
     past = (Booking.query
             .filter(Booking.trekker_id == current_user.id,
                     Booking.status.in_([BOOKING_COMPLETED, BOOKING_CANCELLED]))

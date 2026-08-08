@@ -8,12 +8,12 @@ from routes import role_required
 
 staff_bp = Blueprint('staff', __name__)
 
-# Statuses a guide is allowed to set on a trek they lead.
+# Guide statuses
 GUIDE_STATUSES = ['Approved', 'Open', 'Closed', 'Ongoing', 'Completed']
 
 
 def my_trek_or_403(trek_id):
-    """Guides may only touch treks they are assigned to."""
+    # Ownership check
     trek = Trek.query.get_or_404(trek_id)
     if trek.guide_id != current_user.id:
         abort(403)
@@ -85,7 +85,7 @@ def update_trek(trek_id):
 @login_required
 @role_required('staff')
 def set_stage(trek_id):
-    """One-click progress: start the trek, or close it off as completed."""
+    # Stage switch
     trek = my_trek_or_403(trek_id)
     stage = request.form.get('stage')
 

@@ -14,7 +14,7 @@ admin_bp = Blueprint('admin', __name__)
 
 
 def name_or_id(model, name_column, term):
-    """Filter used by every admin search box: name substring, or exact row id."""
+    # Search filter
     condition = name_column.ilike(f'%{term}%')
     if term.isdigit():
         condition = condition | (model.id == int(term))
@@ -245,7 +245,7 @@ def remove_staff(staff_id):
     guide = User.query.filter_by(id=staff_id, role=ROLE_STAFF).first_or_404()
     name = guide.full_name
 
-    # Treks led by this removed guide will fall back to unassigned so an admin can re-staff them.
+    # Unassign treks
     for trek in guide.led_treks:
         trek.guide_id = None
         if trek.status in ('Approved', 'Open'):

@@ -1,9 +1,4 @@
-"""Database bootstrap.
-
-Creates the tables and the single pre-defined Admin account. Run it once by
-hand with `python seed.py`; app.py also calls setup_database() on start-up so
-the admin always exists. Re-running it never duplicates the admin.
-"""
+# Database bootstrap
 
 from werkzeug.security import generate_password_hash
 

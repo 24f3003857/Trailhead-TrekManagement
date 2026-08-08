@@ -8,13 +8,12 @@ ROLE_ADMIN = 'admin'
 ROLE_STAFF = 'staff'
 ROLE_TREKKER = 'trekker'
 
-# Account states. Staff sign-ups start as 'pending' until an admin approves them.
+# Account states
 STATUS_ACTIVE = 'active'
 STATUS_PENDING = 'pending'
 STATUS_BLACKLISTED = 'blacklisted'
 
-# Trek lifecycle: created by admin (Pending) -> guide assigned (Approved) ->
-# guide opens bookings (Open) -> Closed / Ongoing -> Completed.
+# Trek lifecycle
 TREK_STATUSES = ['Pending', 'Approved', 'Open', 'Closed', 'Ongoing', 'Completed']
 DIFFICULTIES = ['Easy', 'Moderate', 'Hard']
 
@@ -42,7 +41,7 @@ class User(db.Model, UserMixin):
 
     @property
     def is_active(self):
-        """Flask-Login refuses to sign in anyone who is pending or blacklisted."""
+        # Login gate
         return self.account_status == STATUS_ACTIVE
 
 

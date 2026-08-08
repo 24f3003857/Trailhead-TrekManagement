@@ -19,7 +19,7 @@ def email_taken(email):
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
-    """Trekker sign-up. Accounts are usable straight away."""
+    # Trekker signup
     if current_user.is_authenticated:
         return redirect(dashboard_for(current_user))
 
@@ -49,7 +49,7 @@ def register():
 
 @auth_bp.route('/register/staff', methods=['GET', 'POST'])
 def register_staff():
-    """Guide sign-up. Stays pending until an admin approves the account."""
+    # Guide signup
     if current_user.is_authenticated:
         return redirect(dashboard_for(current_user))
 

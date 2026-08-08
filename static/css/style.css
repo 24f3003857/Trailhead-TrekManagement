@@ -14,7 +14,7 @@ body {
     font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 
-/* ---------- Navbar & footer ---------- */
+/* Navbar */
 .site-nav {
     background: linear-gradient(100deg, var(--forest) 0%, var(--moss) 55%, var(--bark) 100%);
     border-bottom: 3px solid var(--clay);
@@ -39,7 +39,7 @@ body {
     margin-top: 60px;
 }
 
-/* ---------- Landing page ---------- */
+/* Hero */
 .hero {
     background-image: linear-gradient(105deg, rgba(36, 64, 47, 0.88), rgba(107, 74, 48, 0.55)),
         url('https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1600&q=80');
@@ -60,7 +60,7 @@ body {
     max-width: 520px;
 }
 
-/* ---------- Panels & cards ---------- */
+/* Cards */
 .panel {
     background: #fff;
     border: 1px solid var(--line);
@@ -113,7 +113,7 @@ body {
     padding: 18px;
 }
 
-/* ---------- Dashboard navigation ---------- */
+/* Dash nav */
 .page-title {
     color: var(--forest);
     font-weight: 700;
@@ -151,7 +151,7 @@ body {
     color: #fff;
 }
 
-/* ---------- Tables ---------- */
+/* Tables */
 .table-trail {
     background: #fff;
     border: 1px solid var(--line);
@@ -168,7 +168,7 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* ---------- Status pills ---------- */
+/* Pills */
 .pill {
     border-radius: 999px;
     display: inline-block;
@@ -183,7 +183,7 @@ body {
 .pill-done { background: #e4e3dd; color: #4d4c45; }
 .pill-off { background: #f3ddd9; color: #8a3227; }
 
-/* ---------- Buttons & links ---------- */
+/* Buttons */
 .btn-trail {
     background-color: var(--forest);
     border: 1px solid var(--forest);
