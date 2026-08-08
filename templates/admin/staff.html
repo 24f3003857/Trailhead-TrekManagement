@@ -28,7 +28,7 @@
             <button class="btn btn-trail w-100">Add</button>
         </div>
         <div class="col-md-3">
-            <input type="number" name="experience_years" class="form-control" placeholder="Years" min="0">
+            <input type="number" name="experience" class="form-control" placeholder="Years" min="0">
         </div>
         <div class="col-md-3">
             <input type="text" name="specialisation" class="form-control" placeholder="Specialisation">
@@ -49,7 +49,7 @@
             <td>{{ guide.id }}</td>
             <td>{{ guide.full_name }}</td>
             <td>{{ guide.email }}</td>
-            <td>{{ guide.staff_profile.experience_years if guide.staff_profile else 0 }} yrs</td>
+            <td>{{ guide.staff_profile.experience if guide.staff_profile else 0 }} yrs</td>
             <td>{{ guide.staff_profile.specialisation if guide.staff_profile else '-' }}</td>
             <td class="text-nowrap">
                 <form method="POST" action="{{ url_for('admin.approve_staff', staff_id=guide.id) }}" class="d-inline">

@@ -1,0 +1,52 @@
+{% extends "staff/layout.html" %}
+
+{% block title %}My profile{% endblock %}
+
+{% block staff_content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="panel">
+            <h5 class="mb-1">My profile</h5>
+            <p class="text-muted small mb-4">Signed in as {{ current_user.email }} &middot;
+                guide since {{ current_user.joined_on.strftime('%d %b %Y') }}</p>
+
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Full name</label>
+                        <input type="text" name="full_name" class="form-control" value="{{ current_user.full_name }}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text" name="phone" class="form-control" value="{{ current_user.phone or '' }}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Years of experience</label>
+                        <input type="number" name="experience" class="form-control" min="0"
+                               value="{{ current_user.staff_profile.experience or 0 }}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Specialisation</label>
+                        <input type="text" name="specialisation" class="form-control"
+                               value="{{ current_user.staff_profile.specialisation or '' }}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Base region</label>
+                        <input type="text" name="base_region" class="form-control"
+                               value="{{ current_user.staff_profile.base_region or '' }}">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="form-label">About you</label>
+                        <textarea name="bio" class="form-control" rows="3">{{ current_user.staff_profile.bio or '' }}</textarea>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">New password</label>
+                        <input type="password" name="new_password" class="form-control" placeholder="Leave blank to keep current">
+                    </div>
+                </div>
+                <button class="btn btn-trail">Save profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

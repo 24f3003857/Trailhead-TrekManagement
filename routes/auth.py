@@ -69,7 +69,7 @@ def register_staff():
             account_status=STATUS_PENDING
         )
         guide.staff_profile = StaffProfile(
-            experience_years=int(request.form.get('experience_years') or 0),
+            experience=int(request.form.get('experience') or 0),
             specialisation=request.form.get('specialisation'),
             base_region=request.form.get('base_region'),
             bio=request.form.get('bio')

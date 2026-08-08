@@ -1,0 +1,89 @@
+{% extends "staff/layout.html" %}
+{% from "macros.html" import trek_pill, booking_pill, payment_pill %}
+
+{% block title %}{{ trek.title }}{% endblock %}
+
+{% block staff_content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <div>
+        <h5 class="mb-1">{{ trek.title }} {{ trek_pill(trek.status) }}</h5>
+        <p class="text-muted mb-0">{{ trek.region }} &middot; {{ trek.difficulty }} &middot;
+            {{ trek.start_date.strftime('%d %b %Y') }} to {{ trek.end_date.strftime('%d %b %Y') }}
+            ({{ trek.duration_days }} days)</p>
+    </div>
+    <a href="{{ url_for('staff.treks') }}" class="btn btn-trail-outline btn-sm">Back to my treks</a>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="panel mb-4">
+            <h6 class="mb-3">Slots &amp; status</h6>
+            <form method="POST" action="{{ url_for('staff.update_trek', trek_id=trek.id) }}">
+                <div class="mb-3">
+                    <label class="form-label">Available slots</label>
+                    <input type="number" name="available_slots" class="form-control" min="0"
+                           max="{{ trek.total_slots - trek.seats_taken }}" value="{{ trek.available_slots }}">
+                    <div class="form-text">{{ trek.seats_taken }} of {{ trek.total_slots }} seats already taken.</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Status</label>
+                    <select name="status" class="form-select">
+                        {% for state in guide_statuses %}
+                        <option value="{{ state }}" {{ 'selected' if trek.status == state }}>{{ state }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button class="btn btn-trail w-100">Save</button>
+            </form>
+        </div>
+
+        <div class="panel">
+            <h6 class="mb-3">Trek progress</h6>
+            <form method="POST" action="{{ url_for('staff.set_stage', trek_id=trek.id) }}" class="mb-2">
+                <input type="hidden" name="stage" value="Ongoing">
+                <button class="btn btn-trail-outline w-100">Mark as started</button>
+            </form>
+            <form method="POST" action="{{ url_for('staff.set_stage', trek_id=trek.id) }}">
+                <input type="hidden" name="stage" value="Completed">
+                <button class="btn btn-trail-outline w-100"
+                        onclick="return confirm('Complete this trek? All active bookings move to history.')">
+                    Mark as completed</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <h6 class="mb-3">Participants ({{ participants|length }})</h6>
+        <table class="table table-trail">
+            <thead>
+                <tr><th>Trekker</th><th>Contact</th><th>Booked on</th><th>Booking</th><th>Payment</th><th></th></tr>
+            </thead>
+            <tbody>
+                {% for booking in participants %}
+                <tr>
+                    <td>{{ booking.trekker.full_name }}</td>
+                    <td class="small">{{ booking.trekker.email }}<br>{{ booking.trekker.phone or '-' }}</td>
+                    <td>{{ booking.booked_on.strftime('%d %b %Y') }}</td>
+                    <td>{{ booking_pill(booking.status) }}</td>
+                    <td>{{ payment_pill(booking.payment_status) }}</td>
+                    <td class="text-nowrap">
+                        <form method="POST" action="{{ url_for('staff.mark_payment', booking_id=booking.id) }}" class="d-inline">
+                            <button class="btn btn-sm btn-trail-outline">
+                                {{ 'Mark unpaid' if booking.payment_status == 'Paid' else 'Mark paid' }}</button>
+                        </form>
+                        {% if booking.status == 'Booked' %}
+                        <form method="POST" action="{{ url_for('staff.remove_participant', booking_id=booking.id) }}" class="d-inline">
+                            <button class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Remove this trekker from the list?')">Remove</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="text-center text-muted">Nobody has booked this trek yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

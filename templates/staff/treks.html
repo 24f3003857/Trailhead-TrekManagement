@@ -1,0 +1,33 @@
+{% extends "staff/layout.html" %}
+{% from "macros.html" import trek_pill %}
+
+{% block title %}My treks{% endblock %}
+
+{% block staff_content %}
+<h5 class="mb-3">Assigned treks ({{ treks|length }})</h5>
+
+<table class="table table-trail">
+    <thead>
+        <tr><th>#</th><th>Trek</th><th>Region</th><th>Difficulty</th><th>Dates</th>
+            <th>Seats</th><th>Trekkers</th><th>Status</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for trek in treks %}
+        <tr>
+            <td>{{ trek.id }}</td>
+            <td>{{ trek.title }}</td>
+            <td>{{ trek.region }}</td>
+            <td>{{ trek.difficulty }}</td>
+            <td class="small">{{ trek.start_date.strftime('%d %b') }} &ndash; {{ trek.end_date.strftime('%d %b %Y') }}</td>
+            <td>{{ trek.available_slots }}/{{ trek.total_slots }}</td>
+            <td>{{ trek.seats_taken }}</td>
+            <td>{{ trek_pill(trek.status) }}</td>
+            <td><a href="{{ url_for('staff.manage_trek', trek_id=trek.id) }}" class="btn btn-sm btn-trail">Manage</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="9" class="text-center text-muted">
+            No treks assigned to you yet - an admin rosters guides onto treks.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 class="page-title">Guide desk</h3>
+<p class="page-note">The treks you have been assigned to lead.</p>
+
+<nav class="dash-nav">
+    <a href="{{ url_for('staff.dashboard') }}" class="{{ 'active' if active_page == 'dashboard' }}">Overview</a>
+    <a href="{{ url_for('staff.treks') }}" class="{{ 'active' if active_page == 'treks' }}">My treks</a>
+    <a href="{{ url_for('staff.profile') }}" class="{{ 'active' if active_page == 'profile' }}">Profile</a>
+</nav>
+
+{% block staff_content %}{% endblock %}
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "staff/layout.html" %}
+{% from "macros.html" import trek_pill %}
+
+{% block title %}Guide overview{% endblock %}
+
+{% block staff_content %}
+<div class="row g-3 mb-4">
+    <div class="col-md-3 col-6">
+        <div class="stat">
+            <div class="stat-value">{{ counts.assigned }}</div>
+            <div class="stat-label">Assigned treks</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat">
+            <div class="stat-value">{{ counts.open }}</div>
+            <div class="stat-label">Open for booking</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat">
+            <div class="stat-value">{{ counts.trekkers }}</div>
+            <div class="stat-label">Registered trekkers</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat">
+            <div class="stat-value">{{ counts.completed }}</div>
+            <div class="stat-label">Completed</div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">Next up</h5>
+    <a href="{{ url_for('staff.treks') }}" class="small">All my treks</a>
+</div>
+
+<table class="table table-trail">
+    <thead>
+        <tr><th>Trek</th><th>Region</th><th>Starts</th><th>Seats</th><th>Trekkers</th><th>Status</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for trek in treks %}
+        <tr>
+            <td>{{ trek.title }}</td>
+            <td>{{ trek.region }}</td>
+            <td>{{ trek.start_date.strftime('%d %b %Y') }}</td>
+            <td>{{ trek.available_slots }}/{{ trek.total_slots }}</td>
+            <td>{{ trek.seats_taken }}</td>
+            <td>{{ trek_pill(trek.status) }}</td>
+            <td><a href="{{ url_for('staff.manage_trek', trek_id=trek.id) }}" class="btn btn-sm btn-trail">Manage</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-center text-muted">No treks assigned to you yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
