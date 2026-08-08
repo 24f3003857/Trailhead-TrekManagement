@@ -1,0 +1,23 @@
+{# Small shared helpers so every table renders statuses the same way. #}
+
+{% macro trek_pill(status) %}
+    {% set tone = {'Pending': 'pill-wait', 'Approved': 'pill-wait', 'Open': 'pill-go',
+                   'Closed': 'pill-hold', 'Ongoing': 'pill-go', 'Completed': 'pill-done'} %}
+    <span class="pill {{ tone.get(status, 'pill-done') }}">{{ status }}</span>
+{% endmacro %}
+
+{% macro booking_pill(status) %}
+    {% set tone = {'Booked': 'pill-go', 'Completed': 'pill-done', 'Cancelled': 'pill-off'} %}
+    <span class="pill {{ tone.get(status, 'pill-done') }}">{{ status }}</span>
+{% endmacro %}
+
+{% macro payment_pill(status) %}
+    <span class="pill {{ 'pill-go' if status == 'Paid' else 'pill-wait' }}">{{ status }}</span>
+{% endmacro %}
+
+{% macro account_pill(status) %}
+    {% set tone = {'active': 'pill-go', 'pending': 'pill-wait', 'blacklisted': 'pill-off'} %}
+    <span class="pill {{ tone.get(status, 'pill-done') }}">{{ status|capitalize }}</span>
+{% endmacro %}
+
+{% macro trek_photo(trek) %}{{ trek.photo_url or 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80' }}{% endmacro %}

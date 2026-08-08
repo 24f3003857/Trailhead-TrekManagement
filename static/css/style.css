@@ -1,0 +1,228 @@
+:root {
+    --forest: #24402f;
+    --moss: #3d6b4c;
+    --bark: #6b4a30;
+    --clay: #b07c42;
+    --sand: #f7f3ea;
+    --line: #e3dbca;
+    --ink: #2c2b26;
+}
+
+body {
+    background-color: var(--sand);
+    color: var(--ink);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* ---------- Navbar & footer ---------- */
+.site-nav {
+    background: linear-gradient(100deg, var(--forest) 0%, var(--moss) 55%, var(--bark) 100%);
+    border-bottom: 3px solid var(--clay);
+}
+
+.site-nav .navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.site-nav .nav-tag {
+    color: #d9e6dc;
+    font-size: 0.85rem;
+    padding: 0 12px;
+}
+
+.site-footer {
+    border-top: 1px solid var(--line);
+    color: #7a7568;
+    font-size: 0.85rem;
+    padding: 24px 0;
+    margin-top: 60px;
+}
+
+/* ---------- Landing page ---------- */
+.hero {
+    background-image: linear-gradient(105deg, rgba(36, 64, 47, 0.88), rgba(107, 74, 48, 0.55)),
+        url('https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1600&q=80');
+    background-size: cover;
+    background-position: center;
+    border-radius: 14px;
+    color: #fff;
+    padding: 76px 44px;
+}
+
+.hero h1 {
+    font-weight: 700;
+    max-width: 620px;
+}
+
+.hero p {
+    color: #e7ded0;
+    max-width: 520px;
+}
+
+/* ---------- Panels & cards ---------- */
+.panel {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px;
+}
+
+.stat {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--moss);
+    border-radius: 10px;
+    padding: 18px 20px;
+}
+
+.stat .stat-value {
+    color: var(--forest);
+    font-size: 1.9rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.stat .stat-label {
+    color: #7a7568;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.trek-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.trek-card img {
+    height: 170px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.trek-card .trek-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 18px;
+}
+
+/* ---------- Dashboard navigation ---------- */
+.page-title {
+    color: var(--forest);
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.page-note {
+    color: #7a7568;
+    margin-bottom: 18px;
+}
+
+.dash-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 14px;
+    margin-bottom: 26px;
+}
+
+.dash-nav a {
+    padding: 7px 16px;
+    border-radius: 999px;
+    color: var(--forest);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.dash-nav a:hover {
+    background: #ebe4d5;
+}
+
+.dash-nav a.active {
+    background: var(--forest);
+    color: #fff;
+}
+
+/* ---------- Tables ---------- */
+.table-trail {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.table-trail thead th {
+    background: #eee8db;
+    color: var(--forest);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ---------- Status pills ---------- */
+.pill {
+    border-radius: 999px;
+    display: inline-block;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 3px 11px;
+}
+
+.pill-go { background: #dcecdf; color: #245537; }
+.pill-wait { background: #f3ecd7; color: #7d611c; }
+.pill-hold { background: #efe1d3; color: #754a20; }
+.pill-done { background: #e4e3dd; color: #4d4c45; }
+.pill-off { background: #f3ddd9; color: #8a3227; }
+
+/* ---------- Buttons & links ---------- */
+.btn-trail {
+    background-color: var(--forest);
+    border: 1px solid var(--forest);
+    border-radius: 8px;
+    color: #fff;
+}
+
+.btn-trail:hover {
+    background-color: var(--moss);
+    border-color: var(--moss);
+    color: #fff;
+}
+
+.btn-trail-outline {
+    background-color: transparent;
+    border: 1px solid var(--bark);
+    border-radius: 8px;
+    color: var(--bark);
+}
+
+.btn-trail-outline:hover {
+    background-color: var(--bark);
+    color: #fff;
+}
+
+.btn-sm {
+    border-radius: 7px;
+}
+
+a {
+    color: var(--forest);
+}
+
+a:hover {
+    color: var(--bark);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--moss);
+    box-shadow: 0 0 0 0.2rem rgba(61, 107, 76, 0.15);
+}

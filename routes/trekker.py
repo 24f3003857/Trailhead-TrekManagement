@@ -22,9 +22,9 @@ def dashboard():
                    .order_by(Booking.booked_on.desc()).all())
 
     counts = {
-        'active': sum(1 for b in my_bookings if b.status == BOOKING_BOOKED),
-        'completed': sum(1 for b in my_bookings if b.status == BOOKING_COMPLETED),
-        'cancelled': sum(1 for b in my_bookings if b.status == BOOKING_CANCELLED),
+        'active': sum(1 for booking in my_bookings if booking.status == BOOKING_BOOKED),
+        'completed': sum(1 for booking in my_bookings if booking.status == BOOKING_COMPLETED),
+        'cancelled': sum(1 for booking in my_bookings if booking.status == BOOKING_CANCELLED),
         'open_treks': Trek.query.filter_by(status='Open').count(),
     }
 
@@ -131,7 +131,7 @@ def history():
                     Booking.status.in_([BOOKING_COMPLETED, BOOKING_CANCELLED]))
             .order_by(Booking.booked_on.desc()).all())
 
-    days_walked = sum(b.trek.duration_days for b in past if b.status == BOOKING_COMPLETED)
+    days_walked = sum(booking.trek.duration_days for booking in past if booking.status == BOOKING_COMPLETED)
 
     return render_template('trekker/history.html', bookings=past,
                            days_walked=days_walked, active_page='history')

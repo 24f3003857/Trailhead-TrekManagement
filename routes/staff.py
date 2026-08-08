@@ -50,7 +50,7 @@ def treks():
 @role_required('staff')
 def manage_trek(trek_id):
     trek = my_trek_or_403(trek_id)
-    participants = [b for b in trek.bookings if b.status != BOOKING_CANCELLED]
+    participants = [booking for booking in trek.bookings if booking.status != BOOKING_CANCELLED]
 
     return render_template('staff/manage_trek.html', trek=trek, participants=participants,
                            guide_statuses=GUIDE_STATUSES, active_page='treks')
@@ -155,7 +155,7 @@ def profile():
         current_user.phone = request.form.get('phone')
 
         profile_data = current_user.staff_profile
-        profile_data.experience = int(request.form.get('experience') or 0)
+        profile_data.experience_years = int(request.form.get('experience_years') or 0)
         profile_data.specialisation = request.form.get('specialisation')
         profile_data.base_region = request.form.get('base_region')
         profile_data.bio = request.form.get('bio')

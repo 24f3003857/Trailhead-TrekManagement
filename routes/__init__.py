@@ -9,8 +9,8 @@ def role_required(role):
         def wrapper(*args, **kwargs):
             if not current_user.is_authenticated:
                 abort(403)
-            if current_user.role != role or current_user.account_status!=STATUS_ACTIVE:
+            if current_user.role != role or current_user.account_status != STATUS_ACTIVE:
                 abort(403)
-            return view(*args,**kwargs)
+            return view(*args, **kwargs)
         return wrapper
     return decorator

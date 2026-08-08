@@ -180,9 +180,9 @@ def staff():
     everyone = query.all()
 
     return render_template('admin/staff.html',
-                           pending=[s for s in everyone if s.account_status == STATUS_PENDING],
-                           active=[s for s in everyone if s.account_status == STATUS_ACTIVE],
-                           blocked=[s for s in everyone if s.account_status == STATUS_BLACKLISTED],
+                           pending=[guide for guide in everyone if guide.account_status == STATUS_PENDING],
+                           active=[guide for guide in everyone if guide.account_status == STATUS_ACTIVE],
+                           blocked=[guide for guide in everyone if guide.account_status == STATUS_BLACKLISTED],
                            term=term, active_page='staff')
 
 
@@ -205,7 +205,7 @@ def add_staff():
         account_status=STATUS_ACTIVE
     )
     guide.staff_profile = StaffProfile(
-        experience=int(request.form.get('experience') or 0),
+        experience_years=int(request.form.get('experience_years') or 0),
         specialisation=request.form.get('specialisation'),
         base_region=request.form.get('base_region')
     )
@@ -315,8 +315,8 @@ def search():
     if term:
         found_treks = Trek.query.filter(name_or_id(Trek, Trek.title, term)).all()
         people = User.query.filter(name_or_id(User, User.full_name, term)).all()
-        found_staff = [p for p in people if p.role == ROLE_STAFF]
-        found_trekkers = [p for p in people if p.role == ROLE_TREKKER]
+        found_staff = [person for person in people if person.role == ROLE_STAFF]
+        found_trekkers = [person for person in people if person.role == ROLE_TREKKER]
 
     return render_template('admin/search.html', term=term, treks=found_treks,
                            staff=found_staff, trekkers=found_trekkers, active_page='search')
