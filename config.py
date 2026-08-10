@@ -7,6 +7,6 @@ os.makedirs(INSTANCE_DIR, exist_ok=True)
 
 
 class Config:
-    SECRET_KEY = 'summit-trails-dev-key'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(INSTANCE_DIR, 'summit_trails.db')
+    SECRET_KEY = 'trailhead-dev-key'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(INSTANCE_DIR, 'trailhead.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
